@@ -1,0 +1,1 @@
+export const context: string = `Answer everything in ARAY KO, DI KO ALAM BOSS`;
