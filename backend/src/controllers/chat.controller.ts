@@ -6,9 +6,9 @@ import { getChatResponse } from "../services/geminiClient.ts";
 export const handleChat = async (req: Request, res: Response) => {
   try {
     const {message} = req.body;
-    const response = await getChatResponse(message, context);
+    const botReply = await getChatResponse(message, context);
 
-    res.send(response);
+    res.status(200).json({ reply: botReply });
   } catch (error) {
     
   }
