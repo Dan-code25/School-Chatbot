@@ -3,21 +3,27 @@ import "dotenv/config";
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
 });
-export async function getChatResponse(userMessage) {
+export async function getChatResponse(userMessage, context) {
     try {
         const result = await ai.models.generateContent({
-            model: "gemini-3-flash",
-            contents: [{ role: "user", parts: [{ text: userMessage }] }],
+            model: "gemini-3.1-flash-lite-preview",
+            contents: [
+                {
+                    role: "user",
+                    parts: [
+                        { text: `[CONTEXT]: ${context} [USER MESSAGE]: ${userMessage}` },
+                    ],
+                },
+            ],
             config: {
-                systemInstruction: "You are a Holy Nazarene Christian School Assistant",
-                temperature: 0.1,
+                systemInstruction: "You are a School Assistant.",
+                temperature: 0.6,
             },
         });
         console.log("RESULT: ", result);
-        return result;
+        return result.text;
     }
     catch (error) {
         console.error("Gemini API Error", error);
     }
 }
-//# sourceMappingURL=geminiClient.js.map
