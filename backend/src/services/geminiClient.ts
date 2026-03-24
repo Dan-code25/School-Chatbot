@@ -28,5 +28,6 @@ export async function getChatResponse(userMessage: string, context: string) {
     return result.text;
   } catch (error) {
     console.error("Gemini API Error", error);
+    throw error;
   }
 }
