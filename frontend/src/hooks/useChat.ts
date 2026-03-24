@@ -12,7 +12,7 @@ export function useChat() {
   const [messages, setMessages] = useState<Message[]>([INTRO_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const backendUrl = "http://localhost:3000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   console.log(backendUrl);
 
   const sendMessage = async (text: string) => {
@@ -32,7 +32,15 @@ export function useChat() {
         body: JSON.stringify({ message: text }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const data = await response.json();
+
+      if (!data.reply) {
+        throw new Error("Empty response from backend");
+      }
 
       const botMessage: Message = {
         id: Date.now() + 1,
@@ -43,10 +51,19 @@ export function useChat() {
       setMessages((prev) => [...prev, botMessage]);
 
     } catch (error) {
+      let errorText = "Sorry, I'm having trouble connecting. Please try again.";
+
+      if (error instanceof Error) {
+        console.error("Chat error:", error.message);
+        if (error.message.includes("HTTP")) {
+          errorText = `Server error: ${error.message}`;
+        }
+      }
+
       const errorMessage: Message = {
         id: Date.now() + 1,
         role: "bot",
-        text: "Sorry, I'm having trouble connecting. Please try again.",
+        text: errorText,
       };
 
       setMessages((prev) => [...prev, errorMessage]);
