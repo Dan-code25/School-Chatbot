@@ -12,6 +12,9 @@ export function useChat() {
   const [messages, setMessages] = useState<Message[]>([INTRO_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
 
+  const backendUrl = "http://localhost:3000";
+  console.log(backendUrl);
+
   const sendMessage = async (text: string) => {
     const userMessage: Message = {
       id: Date.now(),
@@ -23,7 +26,7 @@ export function useChat() {
     setIsTyping(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/chat", {
+      const response = await fetch(`${backendUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text }),
