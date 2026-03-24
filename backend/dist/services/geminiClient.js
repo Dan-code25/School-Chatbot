@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({
 export async function getChatResponse(userMessage, context) {
     try {
         const result = await ai.models.generateContent({
-            model: "gemini-3.1-flash-lite-preview",
+            model: "gemini-2.5-flash-lite",
             contents: [
                 {
                     role: "user",
@@ -25,5 +25,6 @@ export async function getChatResponse(userMessage, context) {
     }
     catch (error) {
         console.error("Gemini API Error", error);
+        throw error;
     }
 }

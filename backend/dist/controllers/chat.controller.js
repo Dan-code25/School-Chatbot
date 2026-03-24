@@ -7,5 +7,6 @@ export const handleChat = async (req, res) => {
         res.status(200).json({ reply: botReply });
     }
     catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
