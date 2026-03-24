@@ -52,12 +52,14 @@ export default function MessageBubble({ messages, isTyping }: Props) {
     transition-all duration-500 ease-out
     ${isVisible ? "scale-100" : "scale-95"}`}
                 >
-                  {msg.text ? msg.text.split("\n").map((line, i) => (
-                    <span key={i}>
-                      {line}
-                      {i < msg.text.split("\n").length - 1 && <br />}
-                    </span>
-                  )) : "No response"}
+                  {msg.text
+                    ? msg.text.split("\n").map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          {i < msg.text.split("\n").length - 1 && <br />}
+                        </span>
+                      ))
+                    : "No response"}
                 </div>
               </div>
             </div>
